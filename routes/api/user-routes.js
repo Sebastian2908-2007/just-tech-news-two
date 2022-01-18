@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
+
 // Get /api/users
 router.get('/',(req,res) => {
     //Acess o;ur User model and run .findAll() method
@@ -57,6 +58,8 @@ router.put('/:id',(req,res) => {
 
  // if req.body has exact key/value pairs to match the model, you can just use `req.body` instead
  User.update(req.body, {
+     // must set this for update actions for hooks to work
+     individualHooks: true,
      where: {
          id: req.params.id 
      }
