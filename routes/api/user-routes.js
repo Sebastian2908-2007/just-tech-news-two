@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { User } = require('../../models');
 
 
+
 // Get /api/users
 router.get('/',(req,res) => {
     //Acess o;ur User model and run .findAll() method
@@ -50,6 +51,34 @@ router.post('/',(req,res) => {
         console.log(err);
         res.status(500).json(err);
     });
+});
+
+// user login route
+router.post('/login',  (req,res) => {
+
+    User.findOne({
+        where: {
+            email: req.body.email
+        }
+    }).then(dbUserData => {
+        
+        if(!dbUserData) {
+            res.status(400).json({message: 'No user with that email address!'});
+        }
+        // verify user
+        const validPassword = dbUserData.checkPassword(req.body.password);  
+        
+        
+        // control statement
+        if (!validPassword) {
+            res.status(400).json({message: 'Incorrect password'})
+            return;     
+           }
+        
+           res.json({user: dbUserData, message: 'you are now logged in!'});
+        
+    })
+
 });
 
 // PUT /api/users/1
