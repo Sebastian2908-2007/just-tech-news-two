@@ -12,6 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 // turn on connection to the db and the server
+// change {force: true} to drop tables at every restart
 sequelize.sync({force: false}).then(() => {
   app.listen(PORT, () => console.log(`now listening on port ${PORT}`));
 });
