@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Post, Vote } = require('../../models');
+const { User, Post, Vote,Comment } = require('../../models');
 
 
 
@@ -26,12 +26,21 @@ router.get('/:id',(req,res) => {
         },
         include: [
             {
-                model: Post,
+                model:Post,
                 attributes: ['id','title','post_url','created_at']
             },
+            // include comment model
             {
-                model:Post,
-                attributes:['title'],
+                model: Comment,
+                attributes: ['id','comment_text','created_at'],
+                include: {
+                    model:Post,
+                    attributes: ['title']
+                }
+            },
+            {
+                model: Post,
+                attributes: ['title'],
                 through: Vote,
                 as: 'voted_posts'
             }
@@ -71,7 +80,8 @@ router.post('/login',  (req,res) => {
     User.findOne({
         where: {
             email: req.body.email
-        }
+        },
+            
     }).then(dbUserData => {
         
         if(!dbUserData) {

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection');
-const {Post,User,Vote} = require('../../models');
+const {Post,User,Vote,Comment} = require('../../models');
 
 // get all posts
 router.get('/',(req,res) => {
@@ -18,6 +18,17 @@ router.get('/',(req,res) => {
         order:[['created_at','DESC']],
         // join to user table
         include: [
+            // includes comment model data with post data 
+            {
+                model: Comment,
+                attributes:['id','comment_text','post_id','user_id','created_at'],
+                include: {
+                    // this will allow us to see the username of user who made the comment
+                    model: User,
+                    attributes:['username']
+                }
+            },
+            // this will display user who created the the post
             {
                 model: User,
                 attributes: ['username']
@@ -45,6 +56,14 @@ router.get('/:id',(req,res) => {
     ],
         // includes user info 'username' from the user model whatever user_id was used in post will be the user whos name appears
         include: [
+            {
+                model:Comment,
+                attributes:['id','comment_text','post_id','user_id','created_at'],
+                include: {
+                    model: User,
+                    attributes: ['username']
+                }
+            },
             {
                 model: User,
                 attributes:['username']
