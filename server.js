@@ -10,6 +10,26 @@ const PORT = process.env.PORT || 3001;
 const exphbs = require('express-handlebars');
 // activate handlebars
 const hbs = exphbs.create({});
+// require dotenv for our session secret
+require('dotenv').config();
+// require express session
+const session = require('express-session');
+// require connect session sequelize
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+// make the session
+const sess = {
+  secret: process.env.mySecret,
+  cookie:{},
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize
+  })
+};
+
+// use our session with this middleware
+app.use(session(sess));
 // set handlebars as our templ;ate engine
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
