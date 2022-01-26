@@ -28,7 +28,7 @@ const sess = {
   })
 };
 
-// use our session with this middleware
+// use our session with this middleware lets all routes know about the session
 app.use(session(sess));
 // set handlebars as our templ;ate engine
 app.engine('handlebars', hbs.engine);
