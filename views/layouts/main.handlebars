@@ -14,8 +14,14 @@
           <h1>
               <a href="/">Just Tech News Two</a>
               <nav>
+                  <!--this helper is using the logged in variable from the session to conditionally render the log in and logout options
+                  putting it here will work for single-post.js since its passed there because its the "main" handlebars file it already knows about the loggeIn variable 
+                  because its passed in single-post.handlebars, but it still needs to be passed into the homepage route route so it works for that-->
+                  {{#if loggedIn}}
                   <button id="logout" class="btn-no-style">logout</button>
+                  {{else}}
                   <a href="/login">login</a>
+                  {{/if}}
               </nav>
           </h1>
       </header>
@@ -25,9 +31,11 @@
       <footer>
           Thanks for visiting!
       </footer>
-  </div>    
-
+  </div>  
+  <!--this is explained up in the nav-->  
+{{#if loggedIn}}
 <script src="/javascript/logout.js"></script>
+{{/if}}
   </body>
   
 </html>

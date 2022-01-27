@@ -97,13 +97,17 @@ router.post('/',(req,res) => {
 
 // vote on a post defining this put route before the put route with /:id is important so Express.js doesn't think the word "upvote" is a valid parameter for /:id.
 router.put('/upvote',(req,res) => {
-    // this is a static method created in models/Post.js
-    Post.upvote(req.body, {Vote})
+    // make sure session exists first
+    if (req.session) { 
+    // this upvote() is a static method created in models/Post.js
+    // pass session id along with all destructured properties on req.body
+    Post.upvote({...req.body, user_id: req.session.user_id}, {Vote})
      .then(dbPostData => res.json(dbPostData))
      .catch(err => {
          console.log(err);
          res.status(400).json(err);
      });
+    }
 });
 
 // update a posts title
