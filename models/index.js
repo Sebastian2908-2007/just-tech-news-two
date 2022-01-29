@@ -59,7 +59,8 @@ Comment.belongsTo(User,{
 // connects comment and post directly
 Comment.belongsTo(Post,{
     onDelete:'cascade',
-    foreignKey: 'post_id',
+    hooks:true,
+    foreignKey: 'post_id'
     
    
 });
