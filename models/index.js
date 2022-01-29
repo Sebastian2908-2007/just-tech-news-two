@@ -13,31 +13,37 @@ User.hasMany(Post, {
 // indicates a post can only be owned by one user
 Post.belongsTo(User, {
     foreignKey: 'user_id',
+    onDelete: 'SET NULL'
 });
 
 // indicates a user can vote on many posts "many to many association"
 User.belongsToMany(Post,{
     through: Vote,
     as: 'voted_posts',
-    foreignKey: 'user_id'
+
+    foreignKey: 'user_id',
+   // onDelete: 'SET NULL'
 });
 
 // indicates that a post can be voted on by many users many to many association this association wil allow us to see which post a queried user has voted on
 Post.belongsToMany(User, {
     through: Vote,
     as:'voted_posts',
-    foreignKey: 'post_id'
+    foreignKey: 'post_id',
+   // onDelete:'SET NULL'
 });
 
 // VOTE ASSOCIATIONS
 // connects vote and user directly
 Vote.belongsTo(User, {
-    foreignKey: 'user_id'
+    foreignKey: 'user_id',
+    onDelete: 'SET NULL'
 });
 
 // connects vote directly to post
 Vote.belongsTo(Post, {
-    foreignKey: 'post_id'
+    foreignKey: 'post_id',
+    onDelete: 'SET NULL'
 });
 
 // states that a user can have many votes
@@ -53,28 +59,26 @@ Post.hasMany(Vote, {
 // COMMENT ASSOCIATIONS
 // connects Comment and User directly
 Comment.belongsTo(User,{
-    foreignKey:'user_id'
+    foreignKey:'user_id',
+    onDelete: 'SET NULL'
 });
 
 // connects comment and post directly
 Comment.belongsTo(Post,{
-    onDelete:'CASCADE',
-    hooks:true,
-    foreignKey: 'post_id'
-    
+    foreignKey: 'post_id',
+    onDelete: 'SET NULL'  
    
 });
 
 // indicates a user can have many comments
 User.hasMany(Comment,{
-    foreignKey:'user_id'
+    foreignKey:'user_id',
+    onDelete: 'SET NULL'
 });
 
 // indicates a post can have many comments
 Post.hasMany(Comment,{
     foreignKey:'post_id',
-    onDelete: 'CASCADE',
-    hooks: true
 });
 
 module.exports = { User, Post, Vote,Comment };

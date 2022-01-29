@@ -46,6 +46,6 @@ app.use(routes);
 
 // turn on connection to the db and the server
 // change {force: true} to drop tables at every restart
-sequelize.sync({force: false}).then(() => {
+sequelize.sync({force: true}).then(() => {
   app.listen(PORT, () => console.log(`now listening on port ${PORT}`));
 });
