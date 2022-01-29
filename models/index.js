@@ -58,7 +58,7 @@ Comment.belongsTo(User,{
 
 // connects comment and post directly
 Comment.belongsTo(Post,{
-    onDelete:'SET NULL',
+    onDelete:'CASCADE',
     hooks:true,
     foreignKey: 'post_id'
     
@@ -72,7 +72,9 @@ User.hasMany(Comment,{
 
 // indicates a post can have many comments
 Post.hasMany(Comment,{
-    foreignKey:'post_id'
+    foreignKey:'post_id',
+    onDelete: 'CASCADE',
+    hooks: true
 });
 
 module.exports = { User, Post, Vote,Comment };
