@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 const helpers = require('./utils/helpers');
 // require express handlebars
 const exphbs = require('express-handlebars');
-// activate handlebars
+// activate handlebars and pass in our helper functions
 const hbs = exphbs.create({ helpers });
 // require dotenv for our session secret
 require('dotenv').config();
@@ -46,6 +46,6 @@ app.use(routes);
 
 // turn on connection to the db and the server
 // change {force: true} to drop tables at every restart
-sequelize.sync({force: false}).then(() => {
+sequelize.sync({force: true}).then(() => {
   app.listen(PORT, () => console.log(`now listening on port ${PORT}`));
 });

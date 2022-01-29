@@ -1,12 +1,12 @@
  <article class="post">
             <div class="title">
-                <a href="{{post_url}}" target="blank">{{title}}</a>
+                <a href="https://{{post_url}}" target="blank">{{title}}</a>
                 <!--use format_url helper function to cut down the post_url into a more readable context-->
                 <span> ({{format_url post_url}}) </span>
             </div>
             <div class="meta">
                 <!--use format_plural helper to display either points or point depending on how many votes the post has-->
-                {{format_plural "point" vote_count}} by {{user.username}} on
+               {{vote_count}} {{format_plural "point" vote_count}} by {{user.username}} on
                 <!-- format_date is a helper to fix up the reaturned date to a more readable fashion-->
                 {{format_date created_at}}
                 |                       <!--the same is happening here with comment or comment as above points with format plural function-->

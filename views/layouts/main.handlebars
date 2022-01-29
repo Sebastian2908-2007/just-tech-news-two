@@ -18,6 +18,7 @@
                   putting it here will work for single-post.js since its passed there because its the "main" handlebars file it already knows about the loggeIn variable 
                   because its passed in single-post.handlebars, but it still needs to be passed into the homepage route route so it works for that-->
                   {{#if loggedIn}}
+                  <a href="/dashboard">dashboard</a>
                   <button id="logout" class="btn-no-style">logout</button>
                   {{else}}
                   <a href="/login">login</a>

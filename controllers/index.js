@@ -4,7 +4,7 @@ const homeRoutes = require('./home-routes');
 const dashboardRoutes = require('./dashboard-routes');
 
 // use the dashboard routes for dashboard view
-router.use(dashboardRoutes);
+router.use('/dashboard',dashboardRoutes);
 
 // use the routes for our views
 router.use('/',homeRoutes);
