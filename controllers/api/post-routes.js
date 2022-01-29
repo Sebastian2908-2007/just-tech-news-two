@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection');
 const {Post,User,Vote,Comment} = require('../../models');
+const withAuth = require('../../utils/auth');
 
 // get all posts
 router.get('/',(req,res) => {
@@ -82,12 +83,12 @@ router.get('/:id',(req,res) => {
 });
 
 // create a post
-router.post('/',(req,res) => {
+router.post('/',withAuth,(req,res) => {
     // expects {title: 'Taskmaster goes public!', post_url: 'https://taskmaster.com/press', user_id: 1}
     Post.create({
         title: req.body.title,
         postUrl: req.body.postUrl,
-        user_id: req.body.user_id
+        user_id: req.session.user_id
     }).then(dbPostData => res.json(dbPostData))
     .catch(err => {
         console.log(err)
@@ -96,18 +97,22 @@ router.post('/',(req,res) => {
 });
 
 // vote on a post defining this put route before the put route with /:id is important so Express.js doesn't think the word "upvote" is a valid parameter for /:id.
-router.put('/upvote',(req,res) => {
-    // this is a static method created in models/Post.js
-    Post.upvote(req.body, {Vote})
+router.put('/upvote',withAuth,(req,res) => {
+    // make sure session exists first
+    if (req.session) { 
+    // this upvote() is a static method created in models/Post.js
+    // pass session id along with all destructured properties on req.body
+    Post.upvote({...req.body, user_id: req.session.user_id}, {Vote})
      .then(dbPostData => res.json(dbPostData))
      .catch(err => {
          console.log(err);
          res.status(400).json(err);
      });
+    }
 });
 
 // update a posts title
-router.put('/:id',(req,res) => {
+router.put('/:id',withAuth,(req,res) => {
     Post.update(
        {
         title: req.body.title
@@ -130,7 +135,7 @@ router.put('/:id',(req,res) => {
     })
 });
 
-router.delete('/:id',(req,res) => {
+router.delete('/:id',withAuth,(req,res) => {
     Post.destroy({
         where: {
             id: req.params.id

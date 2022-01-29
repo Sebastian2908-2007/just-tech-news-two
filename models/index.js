@@ -58,7 +58,10 @@ Comment.belongsTo(User,{
 
 // connects comment and post directly
 Comment.belongsTo(Post,{
-    foreignKey: 'post_id'
+    onDelete:'cascade',
+    foreignKey: 'post_id',
+    
+   
 });
 
 // indicates a user can have many comments

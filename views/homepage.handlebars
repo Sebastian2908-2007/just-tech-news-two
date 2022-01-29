@@ -1,0 +1,8 @@
+<ol class="post-list">
+    {{#each posts as |post|}}
+    <li>
+        <!--this is a handlebars partial to use any partial you just need to use > followed by the partial name as well as the object we will pass to it. In this case post info and post as the object-->
+       {{> post-info post}}
+    </li>
+    {{/each}}
+</ol>

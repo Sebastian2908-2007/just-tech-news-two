@@ -1,0 +1,23 @@
+<!--post partial "post-info.handlebars"-->
+{{> post-info post}}
+<!--comment form-->
+<!--use loggedIn variable being passed in from the route in home-routes.js to conditionally render the form with a handlebars helper-->
+{{#if loggedIn}}
+<form class="comment-form">
+    <div>
+        <textarea name="comment-body"></textarea>
+    </div>
+    <div>
+        <button type="submit">add comment</button>
+        <button type="button" class="upvote-btn">upvote</button>
+    </div>
+</form>
+{{/if}}
+<!--comment partial if grabbing a property like an array make sure to use object.property syntax and in partial use this instead of object.property syntax if accessing and array-->
+{{> comments post.comments}}
+
+<!--this is the same approach used for the form above-->
+{{#if loggedIn}}
+<script src="/javascript/comment.js"></script>
+<script src="/javascript/upvote.js"></script>
+{{/if}}
